@@ -1,3 +1,4 @@
 // deprecated
-export { default } from './__internal/m_color';
-export * from './__internal/m_color';
+import Color from './__internal/m_color';
+
+export default Color;
