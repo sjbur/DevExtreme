@@ -21,6 +21,7 @@ interface Config {
   duration?: any;
   to?: unknown;
   from?: unknown;
+  direction: string;
 }
 
 // @ts-expect-error
@@ -73,7 +74,7 @@ const AnimationPresetCollection = Component.inherit({
   _createAndroidSlideAnimationConfig: function (throughOpacity, widthMultiplier) {
     const that = this;
 
-    const createBaseConfig = function (configModifier) {
+    const createBaseConfig = function (configModifier: Partial<Config>): Partial<Config> {
       return {
         type: 'slide',
         delay: configModifier.delay === undefined ? that.option('defaultAnimationDelay') : configModifier.delay,
@@ -86,26 +87,22 @@ const AnimationPresetCollection = Component.inherit({
         const width = getWidth($element.parent()) * widthMultiplier;
         const { direction } = configModifier;
         const config = createBaseConfig(configModifier);
-        // @ts-expect-error
         config.to = {
           left: 0,
           opacity: 1,
         };
 
         if (direction === 'forward') {
-          // @ts-expect-error
           config.from = {
             left: width,
             opacity: throughOpacity,
           };
         } else if (direction === 'backward') {
-          // @ts-expect-error
           config.from = {
             left: -width,
             opacity: throughOpacity,
           };
         } else {
-          // @ts-expect-error
           config.from = {
             left: 0,
             opacity: 0,
@@ -114,31 +111,34 @@ const AnimationPresetCollection = Component.inherit({
 
         return fx.createAnimation($element, config);
       },
-      leave: function ($element, configModifier) {
+      leave: function ($element, configModifier: Partial<Config>) {
         const width = getWidth($element.parent()) * widthMultiplier;
         const { direction } = configModifier;
-        const config: Config = createBaseConfig(configModifier);
+        const config: Partial<Config> = createBaseConfig(configModifier);
 
         config.from = {
           left: 0,
           opacity: 1,
         };
 
-        if (direction === 'forward') {
-          config.to = {
-            left: -width,
-            opacity: throughOpacity,
-          };
-        } else if (direction === 'backward') {
-          config.to = {
-            left: width,
-            opacity: throughOpacity,
-          };
-        } else {
-          config.to = {
-            left: 0,
-            opacity: 0,
-          };
+        switch (direction) {
+          case 'forward':
+            config.to = {
+              left: -width,
+              opacity: throughOpacity,
+            };
+            break;
+          case 'backward':
+            config.to = {
+              left: width,
+              opacity: throughOpacity,
+            };
+            break;
+          default:
+            config.to = {
+              left: 0,
+              opacity: 0,
+            };
         }
 
         return fx.createAnimation($element, config);
@@ -149,7 +149,7 @@ const AnimationPresetCollection = Component.inherit({
   _createOpenDoorConfig: function () {
     const that = this;
 
-    const createBaseConfig = function (configModifier): Config {
+    const createBaseConfig = function (configModifier: Partial<Config>): Partial<Config> {
       return {
         type: 'css',
         extraCssClasses: 'dx-opendoor-animation',
@@ -169,10 +169,10 @@ const AnimationPresetCollection = Component.inherit({
 
         return fx.createAnimation($element, config);
       },
-      leave: function ($element, configModifier) {
+      leave: function ($element, configModifier: Partial<Config>) {
         const { direction } = configModifier;
         const config = createBaseConfig(configModifier);
-
+        // @ts-expect-error
         config.from = `dx-leave dx-opendoor-animation${directionPostfixes[direction]}`;
         config.to = 'dx-leave-active';
 
@@ -183,7 +183,7 @@ const AnimationPresetCollection = Component.inherit({
 
   _createWinPopConfig: function () {
     const that = this;
-    const baseConfig: Config = {
+    const baseConfig: Partial<Config> = {
       type: 'css',
       extraCssClasses: 'dx-win-pop-animation',
       duration: that.option('defaultAnimationDuration'),
