@@ -82,7 +82,7 @@ class SchedulerWorkSpaceMonth extends SchedulerWorkSpace {
   }
 
   protected override needCreateCrossScrolling(): boolean {
-    return this.option('crossScrollingEnabled') ?? this.isVerticalGroupedWorkSpace();
+    return this.option('crossScrollingEnabled') || this.isVerticalGroupedWorkSpace();
   }
 
   protected override getViewStartByOptions(): Date {
