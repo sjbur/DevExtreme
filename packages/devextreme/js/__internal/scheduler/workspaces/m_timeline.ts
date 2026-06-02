@@ -20,8 +20,8 @@ import timezoneUtils from '../m_utils_time_zone';
 import HorizontalShader from '../shaders/current_time_shader_horizontal';
 import { getFirstVisibleDate } from '../utils/skipped_days';
 import type { WorkspaceDateTableScrollableConfig, WorkspaceHeaderScrollableConfig } from './m_work_space';
-import SchedulerWorkSpace, { type WorkSpaceIndicatorDefaultOptions } from './m_work_space_indicator';
 import type { ViewDataProviderOptions } from './view_model/m_types';
+import SchedulerWorkSpace, { type WorkSpaceIndicatorDefaultOptions } from './work_space_indicator';
 
 const { tableCreator } = tableCreatorModule;
 
