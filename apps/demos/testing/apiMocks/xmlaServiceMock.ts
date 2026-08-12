@@ -7,7 +7,7 @@ import measureGroups from './xmla/measureGroups';
 import remoteVirtualScrollingData from './xmla/remoteVirtualScrollingData';
 import remoteVirtualScrollingCount from './xmla/remoteVirtualScrollingCount';
 import integratedFieldChooserData from './xmla/integratedFieldChooserData';
-import resellerFreightCostData from './xmla/resellerFreightCostData';
+import freightCostData from './xmla/resellerFreightCostData';
 import internetTotalProductCostData from './xmla/internetTotalProductCostData';
 
 // Intercepts the remote Adventure Works XMLA endpoint used by PivotGrid demos,
@@ -21,7 +21,7 @@ const xmlHeaders = {
   'content-type': 'text/xml',
 };
 
-const corsHeaders = {
+const preflightHeaders = {
   'access-control-allow-headers': 'Origin, Content-Type, Accept, SOAPAction',
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'POST, OPTIONS',
@@ -39,7 +39,7 @@ const isCountQuery = (body: string): boolean => (
 
 export const xmlaServiceMock = RequestMock()
   .onRequestTo((req) => isXmlaUrl(req.url) && req.method === 'options')
-  .respond(undefined, 200, corsHeaders)
+  .respond(undefined, 200, preflightHeaders)
 
   // Structure (Discover)
   .onRequestTo((req) => isXmlaUrl(req.url)
@@ -89,7 +89,7 @@ export const xmlaServiceMock = RequestMock()
   .onRequestTo((req) => isXmlaUrl(req.url)
     && req.method === 'post'
     && hasMeasure(bodyOf(req), 'Reseller Freight Cost'))
-  .respond(resellerFreightCostData, 200, xmlHeaders)
+  .respond(freightCostData, 200, xmlHeaders)
 
   // Filtering
   .onRequestTo((req) => isXmlaUrl(req.url)

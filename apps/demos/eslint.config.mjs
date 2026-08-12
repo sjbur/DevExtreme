@@ -49,6 +49,8 @@ export default [
       '**/.DS_Store',
 
       '**/*.{png,json,mjs,css,html,md}',
+
+      'testing/apiMocks/xmla/**',
     ],
   },
 
