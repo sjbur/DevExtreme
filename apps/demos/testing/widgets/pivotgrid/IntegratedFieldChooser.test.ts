@@ -12,7 +12,7 @@ const FIELD_CHOOSER_CONTENT = 'dx-popup-normal';
 
 fixture('PivotGrid.IntegratedFieldChooser')
   .requestHooks(widgetsGalleryServiceMock, xmlaServiceMock)
-  .before(async (ctx) => {
+  .before((ctx) => {
     ctx.initialWindowSize = [900, 800];
   });
 
