@@ -119,6 +119,25 @@ describe('VerticalGroupedStrategy', () => {
     expect($indicator.css).toHaveBeenCalledWith('top', 15 + 100 + 200 + 20 * 3);
   });
 
+  it('should use all-day height for group bounds when all-day panel is shown', () => {
+    const strategy = new VerticalGroupedStrategy(createConfig({
+      supportAllDayRow: (): boolean => true,
+      showAllDayPanel: (): boolean => true,
+    }));
+
+    const result = strategy.getGroupBoundsOffset(2, [
+      createElement({ left: 10 }),
+      createElement({ right: 710 }),
+    ]);
+
+    expect(result).toEqual({
+      left: 10,
+      right: 710,
+      top: 2 * 480 + 20 + 5 - 10 + 20 * 3,
+      bottom: 2 * 480 + 20 + 5 - 10 + 20 * 3 + 480,
+    });
+  });
+
   it('should use group height for shader max height', () => {
     const strategy = new VerticalGroupedStrategy(createConfig({
       getGroupHeights: (): number[] => [100, 200],

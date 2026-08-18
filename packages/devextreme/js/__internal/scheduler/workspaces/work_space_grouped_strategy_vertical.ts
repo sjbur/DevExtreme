@@ -121,7 +121,7 @@ class VerticalGroupedStrategy {
         + this.config.getHeaderHeight() - scrollTop;
 
       if (this.config.showAllDayPanel() && this.config.supportAllDayRow()) {
-        topOffset += this.config.getCellHeight() * (groupIndex + 1);
+        topOffset += this.config.getAllDayHeight() * (groupIndex + 1);
       }
 
       const bottomOffset = topOffset + groupHeight;
